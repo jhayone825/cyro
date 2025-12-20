@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyro Pay — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="https://i.ibb.co/9HFwfwzj/Cyro-Pay-03.jpg">
+<meta name="theme-color" content="#3a86ff">
+<style>
+:root {
+  --bg-dark: #0b1320;
+  --bg-mid: #111a2b;
+  --primary: #3a86ff;
+  --text-light: #e6e9f0;
+  --text-muted: #a0a7b4;
+  --card: #141f35;
+  --bg-light: #f5f5f5;
+  --text-dark: #111;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg-dark);color:var(--text-light);overflow-x:hidden;transition:all 0.3s ease;}
+
+/* HEADER */
+header{position:fixed;top:0;width:100%;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;background:rgba(11,19,32,0.9);backdrop-filter:blur(12px);z-index:1000;}
+header img{height:36px;}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:120px 16px 60px;
+  background: radial-gradient(circle at top, #162445, var(--bg-dark));
+}
+.hero h1{font-size:2rem; margin:12px 0 8px;}
+.hero h1 span{color:var(--primary);}
+.hero p{color:var(--text-muted); margin-bottom:20px; line-height:1.6; font-size:14px;}
+
+/* MOBILE IMAGE */
+.mobile-img-container{margin-top:16px;}
+.mobile-img{width:220px; border-radius:16px; box-shadow:0 12px 25px rgba(58,134,255,0.3);}
+
+/* SECTIONS */
+section{padding:60px 16px; max-width:480px; margin:auto;}
+section h2{text-align:center; font-size:1.8rem; margin-bottom:20px;}
+
+/* COIN SWAP */
+.swap-card{background:var(--card); padding:16px; border-radius:16px; text-align:center; margin-bottom:30px;}
+.swap-card img{width:120px; margin-bottom:12px; border-radius:12px;}
+.swap-card select, .swap-card input{width:100%; padding:12px; margin-bottom:12px; border-radius:10px; border:none; background:var(--bg-mid); color:var(--text-light);}
+.swap-card button{width:100%; padding:14px; border:none; border-radius:12px; background:linear-gradient(135deg,var(--primary),#5aa2ff); color:#fff; font-size:16px; cursor:pointer; box-shadow:0 12px 25px rgba(58,134,255,0.3); transition:transform 0.2s;}
+.swap-card button:hover{transform:scale(1.05);}
+.swap-card p{margin-top:8px; color:var(--text-muted); font-size:14px;}
+
+/* FEATURES */
+.features{display:grid; grid-template-columns:1fr; gap:16px;}
+.card{background:var(--card); padding:16px; border-radius:16px; transform:translateY(30px); opacity:0; transition:all 0.8s ease;}
+.card.show{transform:translateY(0); opacity:1;}
+.card h3{margin-bottom:8px;}
+.card p{font-size:13px; color:var(--text-muted); line-height:1.5;}
+
+/* FOOTER */
+footer{padding:20px; text-align:center; font-size:12px; color:var(--text-muted); margin-top:20px;}
+
+/* DARK/LIGHT TOGGLE BUTTON */
+#mode-toggle{
+  position:fixed;
+  top:16px;
+  right:16px;
+  padding:6px 12px;
+  font-size:12px;
+  cursor:pointer;
+  border:none;
+  border-radius:8px;
+  background:var(--primary);
+  color:#fff;
+  z-index:2000;
+  transition:0.2s;
+}
+#mode-toggle:hover{opacity:0.85;}
+
+/* LIGHT MODE */
+body.light-mode{
+  background:var(--bg-light);
+  color:var(--text-dark);
+}
+body.light-mode .card, body.light-mode .swap-card{background:#f0f0f0; color:#111;}
+body.light-mode select, body.light-mode input{background:#eaeaea; color:#111;}
+</style>
+</head>
+<body>
+
+<!-- DARK/LIGHT TOGGLE -->
+<button id="mode-toggle">Toggle Mode</button>
+
+<header>
+  <img src="https://i.ibb.co/9HFwfwzj/Cyro-Pay-03.jpg" alt="Cyro Pay">
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="https://i.ibb.co/s9bDGvj5/9dda46181884629-Y3-Jvc-Cwx-NTM0-LDEy-MDAs-Mz-Qs-MA.png" alt="Hero" class="mobile-img">
+  <h1 style="margin-top:20px;"><span>Welcome to Cyro Pay</span></h1>
+  <p>Your dashboard for coin swap, virtual cards, and peer-to-peer transfers.</p>
+</section>
+
+<!-- BALANCE -->
+<section id="balance">
+  <h2>Wallet Balance</h2>
+  <p style="text-align:center; font-size:24px; margin-top:10px;">$0.00</p>
+</section>
+
+<!-- COIN SWAP -->
+<section id="coin-swap">
+  <h2>Coin Swap</h2>
+  <div class="swap-card">
+    <img src="https://i.ibb.co/HpdbXpQ1/cryptocurrency-coins-isolate-vector-39841575.avif" alt="Coin Swap">
+    <select id="swap-from">
+      <option value="BTC">BTC</option><option value="ETH">ETH</option><option value="USDT">USDT</option>
+      <option value="BNB">BNB</option><option value="ADA">ADA</option><option value="SOL">SOL</option>
+      <option value="XRP">XRP</option><option value="DOGE">DOGE</option><option value="DOT">DOT</option>
+      <option value="AVAX">AVAX</option><option value="MATIC">MATIC</option><option value="LTC">LTC</option>
+      <option value="BCH">BCH</option><option value="LINK">LINK</option><option value="ATOM">ATOM</option>
+      <option value="XLM">XLM</option><option value="ALGO">ALGO</option><option value="VET">VET</option>
+      <option value="FIL">FIL</option><option value="ICP">ICP</option><option value="TRX">TRX</option>
+      <option value="EOS">EOS</option><option value="XTZ">XTZ</option><option value="FTM">FTM</option>
+      <option value="THETA">THETA</option><option value="AAVE">AAVE</option><option value="KSM">KSM</option>
+      <option value="NEO">NEO</option><option value="ZEC">ZEC</option><option value="DASH">DASH</option>
+      <option value="MKR">MKR</option><option value="COMP">COMP</option><option value="SUSHI">SUSHI</option>
+      <option value="YFI">YFI</option><option value="CAKE">CAKE</option><option value="BNX">BNX</option>
+      <option value="DOGECOIN">DOGECOIN</option><option value="SHIB">SHIB</option><option value="LUNA">LUNA</option>
+      <option value="UST">UST</option>
+    </select>
+    <select id="swap-to">
+      <option value="BTC">BTC</option><option value="ETH">ETH</option><option value="USDT">USDT</option>
+      <option value="BNB">BNB</option><option value="ADA">ADA</option><option value="SOL">SOL</option>
+      <option value="XRP">XRP</option><option value="DOGE">DOGE</option><option value="DOT">DOT</option>
+      <option value="AVAX">AVAX</option><option value="MATIC">MATIC</option><option value="LTC">LTC</option>
+      <option value="BCH">BCH</option><option value="LINK">LINK</option><option value="ATOM">ATOM</option>
+      <option value="XLM">XLM</option><option value="ALGO">ALGO</option><option value="VET">VET</option>
+      <option value="FIL">FIL</option><option value="ICP">ICP</option><option value="TRX">TRX</option>
+      <option value="EOS">EOS</option><option value="XTZ">XTZ</option><option value="FTM">FTM</option>
+      <option value="THETA">THETA</option><option value="AAVE">AAVE</option><option value="KSM">KSM</option>
+      <option value="NEO">NEO</option><option value="ZEC">ZEC</option><option value="DASH">DASH</option>
+      <option value="MKR">MKR</option><option value="COMP">COMP</option><option value="SUSHI">SUSHI</option>
+      <option value="YFI">YFI</option><option value="CAKE">CAKE</option><option value="BNX">BNX</option>
+      <option value="DOGECOIN">DOGECOIN</option><option value="SHIB">SHIB</option><option value="LUNA">LUNA</option>
+      <option value="UST">UST</option>
+    </select>
+    <input type="number" id="swap-amount" placeholder="Amount to swap">
+    <button onclick="document.getElementById('swap-result').innerText='Swap completed (demo)';">Swap Now</button>
+    <p id="swap-result">Balance: $0.00</p>
+  </div>
+</section>
+
+<!-- VIRTUAL CARDS -->
+<section id="virtual-cards">
+  <h2>Virtual Cards</h2>
+  <div class="swap-card">
+    <img src="https://i.ibb.co/whRMj23b/4-Credit-Card-What-is-a-Virtual-Credit-Card-All-You-Need-to-Know-option-2.jpg" alt="Virtual Card">
+    <p>Your Visa / Mastercard virtual card</p>
+    <p>USD Balance: $0.00</p>
+  </div>
+</section>
+
+<!-- P2P -->
+<section id="p2p">
+  <h2>Peer-to-Peer Transfers</h2>
+  <div class="swap-card">
+    <img src="https://i.ibb.co/zT7Mt4C6/businessman-online-trading-p2p-peer-peer-crypto-currency-exchange-app-platform-251139-685.avif" alt="P2P">
+    <p>Send crypto to other users or external wallets</p>
+    <input type="text" placeholder="Recipient Email / Wallet">
+    <input type="number" placeholder="Amount">
+    <button onclick="alert('Demo P2P transfer');">Send</button>
+  </div>
+</section>
+
+<footer>© 2025 Cyro Pay. All rights reserved.</footer>
+
+<script>
+const cards = document.querySelectorAll('.card');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('show');
+  });
+}, {threshold:0.2});
+cards.forEach(card=>observer.observe(card));
+
+// TOGGLE MODE
+const modeToggle = document.getElementById('mode-toggle');
+modeToggle.addEventListener('click', ()=>{ document.body.classList.toggle('light-mode'); });
+</script>
+</body>
+</html>
